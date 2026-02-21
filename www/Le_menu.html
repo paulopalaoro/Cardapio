@@ -1,0 +1,1275 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de Cardápio Semanal — Le Cordon Bleu</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1B2A4A">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Cardápio">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lato:wght@300;400;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --navy: #1B2A4A;
+      --navy-light: #263B64;
+      --burgundy: #7B2D3B;
+      --burgundy-dark: #5E2230;
+      --burgundy-light: #9A3A4C;
+      --gold: #C5A55A;
+      --gold-light: #D4B96E;
+      --gold-pale: #E8D9A8;
+      --cream: #FDF8F0;
+      --cream-dark: #F5EDE0;
+      --cream-medium: #EDE3D2;
+      --text-dark: #2C1810;
+      --text-muted: #6B5D52;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Lato', 'Segoe UI', sans-serif;
+      background: linear-gradient(160deg, var(--navy) 0%, #0F1B33 50%, var(--burgundy-dark) 100%);
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.04;
+      z-index: 0;
+      background-image:
+        url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C5A55A'%3E%3Cpath d='M40 10c-1 0-2 .5-2.5 1.5L35 16l-5-1c-1-.2-2 .3-2.5 1.2s-.3 2 .4 2.7l4 3.5-1.5 5c-.3 1 .1 2 .9 2.6s1.9.5 2.7-.1L40 26l5.9 4c.8.6 1.9.7 2.7.1s1.2-1.6.9-2.6l-1.5-5 4-3.5c.7-.7.9-1.8.4-2.7s-1.5-1.4-2.5-1.2l-5 1-2.5-4.5C42 10.5 41 10 40 10z'/%3E%3C/g%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C5A55A'%3E%3Ccircle cx='60' cy='60' r='2'/%3E%3Ccircle cx='20' cy='20' r='1.5'/%3E%3Ccircle cx='100' cy='20' r='1.5'/%3E%3Ccircle cx='20' cy='100' r='1.5'/%3E%3Ccircle cx='100' cy='100' r='1.5'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 80px 80px, 120px 120px;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: var(--cream);
+      border-radius: 4px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(197, 165, 90, 0.2);
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+
+    header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    header::before {
+      content: '⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜';
+      position: absolute;
+      top: 12px;
+      left: 0;
+      width: 200%;
+      font-size: 1.5em;
+      opacity: 0.08;
+      color: var(--gold);
+      animation: scrollEmoji 40s linear infinite;
+      white-space: nowrap;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 3px;
+      background: var(--gold);
+      border-radius: 2px;
+    }
+
+    @keyframes scrollEmoji {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.5em;
+      font-weight: 700;
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+      letter-spacing: 0.02em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    header h1 span {
+      color: var(--gold);
+    }
+
+    header p {
+      font-size: 1.1em;
+      opacity: 0.8;
+      position: relative;
+      z-index: 1;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.85em;
+    }
+
+    .controls {
+      padding: 25px 30px;
+      background: var(--cream-dark);
+      border-bottom: 1px solid var(--cream-medium);
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    button {
+      background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-dark) 100%);
+      color: white;
+      border: 1px solid rgba(197, 165, 90, 0.3);
+      padding: 13px 28px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-weight: 700;
+      font-family: 'Lato', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(123, 45, 59, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(123, 45, 59, 0.5);
+      background: linear-gradient(135deg, var(--burgundy-light) 0%, var(--burgundy) 100%);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      box-shadow: 0 2px 8px rgba(27, 42, 74, 0.3);
+    }
+
+    .btn-secondary:hover {
+      box-shadow: 0 4px 16px rgba(27, 42, 74, 0.5);
+      background: linear-gradient(135deg, var(--navy-light) 0%, var(--navy) 100%);
+    }
+
+    .file-status {
+      width: 100%;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82em;
+      font-style: italic;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px;
+      padding: 24px;
+    }
+
+    .day-card {
+      background: white;
+      border-radius: 4px;
+      padding: 14px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+      transition: all 0.3s ease;
+      border: 1px solid var(--cream-medium);
+      border-top: 3px solid var(--gold);
+    }
+
+    .day-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      border-top-color: var(--burgundy);
+    }
+
+    .day-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: white;
+      padding: 10px;
+      border-radius: 3px;
+      margin-bottom: 12px;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.1em;
+      font-weight: 600;
+      text-align: center;
+      letter-spacing: 0.03em;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .day-date {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.82em;
+      font-weight: 400;
+      color: var(--gold-light);
+      margin-left: 6px;
+    }
+
+    .meal-section {
+      margin-bottom: 10px;
+    }
+
+    .meal-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .meal-label {
+      font-weight: 700;
+      color: var(--burgundy);
+      margin-bottom: 3px;
+      font-size: 0.78em;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .meal-item {
+      background: var(--cream);
+      padding: 7px 11px;
+      border-radius: 3px;
+      margin-bottom: 4px;
+      border-left: 3px solid var(--gold);
+      color: var(--text-dark);
+      font-size: 0.95em;
+    }
+
+    .meal-select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--cream-medium);
+      border-radius: 3px;
+      background: white;
+      font-size: 0.9em;
+      font-family: 'Lato', sans-serif;
+      color: var(--text-dark);
+      cursor: pointer;
+      margin-bottom: 4px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23C5A55A' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .meal-select:hover {
+      border-color: var(--gold);
+    }
+
+    .meal-select:focus {
+      outline: none;
+      border-color: var(--burgundy);
+      box-shadow: 0 0 0 3px rgba(123, 45, 59, 0.1);
+    }
+
+    .day-actions {
+      margin-top: 10px;
+      text-align: right;
+      padding-top: 8px;
+      border-top: 1px solid var(--cream-medium);
+    }
+
+    .btn-day-random {
+      padding: 5px 12px;
+      border-radius: 3px;
+      font-size: 0.75em;
+      box-shadow: none;
+      width: auto;
+      border: 1px solid var(--gold);
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      color: var(--navy);
+    }
+
+    .btn-day-random:hover {
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
+      box-shadow: 0 2px 8px rgba(197, 165, 90, 0.4);
+    }
+
+    .day-action-note {
+      margin-top: 8px;
+      font-size: 0.78em;
+      color: var(--text-muted);
+      text-align: right;
+      font-style: italic;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 30px;
+      color: var(--text-muted);
+    }
+
+    .empty-state svg {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 20px;
+      opacity: 0.2;
+      color: var(--gold);
+    }
+
+    .empty-state h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5em;
+      margin-bottom: 10px;
+      color: var(--navy);
+    }
+
+    .empty-state p {
+      color: var(--text-muted);
+    }
+
+    .shopping-list {
+      margin: 0 24px 24px;
+      background: white;
+      border: 1px solid var(--cream-medium);
+      border-top: 3px solid var(--burgundy);
+      border-radius: 4px;
+      padding: 18px;
+    }
+
+    .shopping-list h3 {
+      font-family: 'Playfair Display', Georgia, serif;
+      color: var(--navy);
+      margin-bottom: 8px;
+      font-size: 1.2em;
+    }
+
+    .shopping-list p {
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-size: 0.9em;
+    }
+
+    .shopping-list ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 8px;
+      padding: 0;
+    }
+
+    .shopping-list li {
+      background: var(--cream);
+      border-radius: 3px;
+      border-left: 3px solid var(--gold);
+      padding: 8px 12px;
+      font-size: 0.9em;
+      color: var(--text-dark);
+    }
+
+    .footer-brand {
+      text-align: center;
+      padding: 16px;
+      background: var(--cream-dark);
+      border-top: 1px solid var(--cream-medium);
+      color: var(--text-muted);
+      font-size: 0.75em;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .footer-brand span {
+      color: var(--gold);
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .controls {
+        display: none;
+      }
+
+      .container {
+        box-shadow: none;
+      }
+
+      .day-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .footer-brand {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8em;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .controls {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>⚜ <span>Cardápio</span> Semanal</h1>
+      <p>L'Art de Planifier vos Repas</p>
+    </header>
+
+    <div class="controls">
+      <button onclick="gerarCardapio()">🎲 Gerar Cardápio</button>
+      <button class="btn-secondary" onclick="limparCardapio()">🗑️ Limpar</button>
+      <button class="btn-secondary" onclick="gerarArquivoCompartilhavel()">🖨️ Gerar Arquivo</button>
+      <button class="btn-secondary" onclick="enviarWhatsApp()">📤 Enviar WhatsApp</button>
+      <button class="btn-secondary" onclick="document.getElementById('inputArquivo').click()">📂 Abrir Arquivo</button>
+      <input type="file" id="inputArquivo" accept=".html,.htm" style="display:none"
+        onchange="abrirArquivoExterno(this)">
+    </div>
+
+    <div id="menuContainer">
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path
+            d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z" />
+        </svg>
+        <h3>Nenhum cardápio gerado ainda</h3>
+        <p>Clique em "Gerar Cardápio" para começar</p>
+      </div>
+    </div>
+    <div id="shoppingListContainer"></div>
+    <div class="footer-brand">⚜ <span>Inspiré par</span> Le Cordon Bleu ⚜</div>
+  </div>
+
+  <script>
+    const diasDaSemana = [
+      'Segunda-feira',
+      'Terça-feira',
+      'Quarta-feira',
+      'Quinta-feira',
+      'Sexta-feira',
+      'Sábado',
+      'Domingo'
+    ];
+
+    const opcoesPratos = {
+      proteinas: [
+        'Frango Empanado',
+        'Carne com Abobora',
+        'Bife Acebolado',
+        'Bife Empanado',
+        'Frango ao molho',
+        'Carne assada',
+        'Carne ao Forno',
+        'Costela assada',
+        'Strogonoff de frango',
+        'Carne de panela',
+        'File de Tilapia'
+      ],
+      acompanhamentos: [
+        'Arroz branco',
+        'Feijão preto',
+        'Lentilha',
+        'Pure de batata',
+        'Batata frita',
+        'Farofa',
+        'Macarrão ao molho',
+        'Massa Carbonara',
+        'Massa Tomates Secos',
+        'Polenta',
+        'Escondidinho Frango',
+        'Nhoque de Batata',
+        'Nhoque de Caseiro',
+        'Batata assada',
+        'Sopa de Agnolini',
+        'Sopão de Legumes'
+      ],
+      saladas: [
+        'Salada de alface e tomate',
+        'Salada verde',
+        'Salada de radichi',
+        'Salada de radichi com Cebola',
+        'Salada de Batata',
+        'Salada de Maionese',
+        'Salada tropical',
+        'Salada de cenoura ralada',
+        'Salada mista',
+        'Salada de pepino',
+        'Vinagrete'
+      ]
+    };
+
+    const CHAVE_STORAGE_CARDAPIO = 'cardapioSemanalUltimaGeracao';
+    let cardapioAtual = [];
+    let arquivoGeradoUrl = null;
+    let arquivoGeradoNome = '';
+
+    function obterItemAleatorio(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function normalizarTexto(texto) {
+      return texto
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+    }
+
+    function ingredientesProteina(prato) {
+      const nome = normalizarTexto(prato);
+
+      if (
+        nome.includes('frango empanado') ||
+        nome.includes('frango ao molho') ||
+        nome.includes('strogonoff de frango')
+      ) {
+        return [{ item: 'Peito de frango', quantidade: 0.22, unidade: 'kg' }];
+      }
+      if (nome.includes('file de tilapia')) {
+        return [{ item: 'Peixe', quantidade: 0.24, unidade: 'kg' }];
+      }
+      if (nome.includes('costela assada')) {
+        return [{ item: 'Carne suina', quantidade: 0.24, unidade: 'kg' }];
+      }
+      if (
+        nome.includes('carne com abobora') ||
+        nome.includes('bife acebolado') ||
+        nome.includes('bife emapanado') ||
+        nome.includes('carne assada') ||
+        nome.includes('carne ao forno') ||
+        nome.includes('carne de panela')
+      ) {
+        return [{ item: 'Carne bovina', quantidade: 0.22, unidade: 'kg' }];
+      }
+
+      return [{ item: 'Carne bovina', quantidade: 0.22, unidade: 'kg' }];
+    }
+
+    function ingredientesAcompanhamento(prato) {
+      const nome = normalizarTexto(prato);
+
+      if (nome.includes('arroz')) {
+        return [{ item: 'Arroz', quantidade: 0.08, unidade: 'kg' }];
+      }
+      if (nome.includes('feijao preto')) {
+        return [{ item: 'Feijao', quantidade: 0.07, unidade: 'kg' }];
+      }
+      if (nome.includes('lentilha')) {
+        return [{ item: 'Lentilha', quantidade: 0.07, unidade: 'kg' }];
+      }
+      if (
+        nome.includes('macarrao ao molho') ||
+        nome.includes('massa carbonara') ||
+        nome.includes('massa tomates secos') ||
+        nome.includes('sopa de Agnolini')
+      ) {
+        return [{ item: 'Macarrao/Nhoque', quantidade: 0.1, unidade: 'kg' }];
+      }
+      if (nome.includes('nhoque de batata') || nome.includes('nhoque de caseiro')) {
+        return [{ item: 'Macarrao/Nhoque', quantidade: 0.1, unidade: 'kg' }];
+      }
+      if (
+        nome.includes('batata') ||
+        nome.includes('pure') ||
+        nome.includes('escondidinho frango')
+      ) {
+        return [{ item: 'Batata', quantidade: 0.18, unidade: 'kg' }];
+      }
+      if (nome.includes('polenta')) {
+        return [{ item: 'Fuba', quantidade: 0.06, unidade: 'kg' }];
+      }
+      if (nome.includes('farofa')) {
+        return [{ item: 'Farinha de mandioca', quantidade: 0.05, unidade: 'kg' }];
+      }
+      if (nome.includes('sopao de legumes')) {
+        return [
+          { item: 'Legumes variados', quantidade: 0.2, unidade: 'kg' },
+          { item: 'Caldo para sopa', quantidade: 0.5, unidade: 'l' }
+        ];
+      }
+
+      return [{ item: 'Acompanhamento variado', quantidade: 0.08, unidade: 'kg' }];
+    }
+
+    function ingredientesSalada(prato) {
+      const nome = normalizarTexto(prato);
+
+      if (nome.includes('repolho') || nome.includes('coleslaw')) {
+        return [
+          { item: 'Repolho', quantidade: 0.1, unidade: 'kg' },
+          { item: 'Cenoura', quantidade: 0.04, unidade: 'kg' }
+        ];
+      }
+      if (nome.includes('cenoura')) {
+        return [{ item: 'Cenoura', quantidade: 0.09, unidade: 'kg' }];
+      }
+      if (nome.includes('beterraba')) {
+        return [{ item: 'Beterraba', quantidade: 0.09, unidade: 'kg' }];
+      }
+      if (nome.includes('pepino')) {
+        return [{ item: 'Pepino', quantidade: 0.1, unidade: 'kg' }];
+      }
+      if (nome.includes('grao de bico')) {
+        return [{ item: 'Grao de bico', quantidade: 0.07, unidade: 'kg' }];
+      }
+      if (nome.includes('tabule')) {
+        return [
+          { item: 'Trigo para quibe', quantidade: 0.05, unidade: 'kg' },
+          { item: 'Tomate', quantidade: 0.06, unidade: 'kg' },
+          { item: 'Pepino', quantidade: 0.06, unidade: 'kg' }
+        ];
+      }
+      if (nome.includes('caprese')) {
+        return [
+          { item: 'Tomate', quantidade: 0.1, unidade: 'kg' },
+          { item: 'Mucarela', quantidade: 0.06, unidade: 'kg' }
+        ];
+      }
+
+      return [
+        { item: 'Folhas para salada', quantidade: 0.08, unidade: 'kg' },
+        { item: 'Tomate', quantidade: 0.06, unidade: 'kg' }
+      ];
+    }
+
+    function adicionarIngrediente(lista, ingrediente, pessoas) {
+      const chave = `${ingrediente.item}|${ingrediente.unidade}`;
+
+      if (!lista[chave]) {
+        lista[chave] = {
+          item: ingrediente.item,
+          unidade: ingrediente.unidade,
+          quantidade: 0
+        };
+      }
+
+      lista[chave].quantidade += ingrediente.quantidade * pessoas;
+    }
+
+    function formatarQuantidade(quantidade, unidade) {
+      if (unidade === 'kg' && quantidade < 1) {
+        return `${Math.round(quantidade * 1000)} g`;
+      }
+      if (unidade === 'l' && quantidade < 1) {
+        return `${Math.round(quantidade * 1000)} ml`;
+      }
+
+      return `${quantidade.toFixed(2)} ${unidade}`;
+    }
+
+    function gerarListaCompras(cardapio, pessoas = 2) {
+      const itens = {};
+
+      cardapio.forEach(({ refeicao }) => {
+        if (refeicao.almocoPronto) {
+          return;
+        }
+
+        ingredientesProteina(refeicao.proteina).forEach(ingrediente => {
+          adicionarIngrediente(itens, ingrediente, pessoas);
+        });
+
+        ingredientesAcompanhamento(refeicao.acompanhamento1).forEach(ingrediente => {
+          adicionarIngrediente(itens, ingrediente, pessoas);
+        });
+
+        ingredientesSalada(refeicao.salada).forEach(ingrediente => {
+          adicionarIngrediente(itens, ingrediente, pessoas);
+        });
+      });
+
+      return Object.values(itens).sort((a, b) => a.item.localeCompare(b.item));
+    }
+
+    function renderizarListaCompras(cardapio, pessoas = 2) {
+      const shoppingListContainer = document.getElementById('shoppingListContainer');
+      const lista = gerarListaCompras(cardapio, pessoas);
+      const diasComPreparo = cardapio.filter(({ refeicao }) => !refeicao.almocoPronto).length;
+      const temAlmocoPronto = cardapio.some(({ refeicao }) => refeicao.almocoPronto);
+      const sufixo = temAlmocoPronto ? ' com 1 dia de almoço pronto.' : '.';
+
+      shoppingListContainer.innerHTML =
+        '<div class="shopping-list">' +
+        '<h3>⚜ Lista de Compras<\/h3>' +
+        '<p>Estimativa para ' + pessoas + ' pessoas: ' + diasComPreparo + ' refeições em casa' + escapeHtml(sufixo) + '<\/p>' +
+        '<ul>' +
+        lista.map(item =>
+          '<li><strong>' + escapeHtml(item.item) + '<\/strong><br>' + escapeHtml(formatarQuantidade(item.quantidade, item.unidade)) + '<\/li>'
+        ).join('') +
+        '<\/ul>' +
+        '<\/div>';
+    }
+
+    function salvarCardapio(cardapio) {
+      try {
+        localStorage.setItem(CHAVE_STORAGE_CARDAPIO, JSON.stringify(cardapio));
+      } catch (erro) {
+        console.warn('Nao foi possivel salvar o cardapio:', erro);
+      }
+    }
+
+    function textoRefeicaoValido(texto) {
+      if (typeof texto !== 'string') {
+        return false;
+      }
+
+      if (/[<>{}=;]/.test(texto)) {
+        return false;
+      }
+
+      if (/\b(function|document|window|const|let|return)\b/i.test(texto)) {
+        return false;
+      }
+
+      return true;
+    }
+
+    function carregarCardapioSalvo() {
+      try {
+        const conteudo = localStorage.getItem(CHAVE_STORAGE_CARDAPIO);
+
+        if (!conteudo) {
+          return null;
+        }
+
+        const cardapio = JSON.parse(conteudo);
+        const cardapioValido = Array.isArray(cardapio) && cardapio.length > 0 &&
+          cardapio.every(item =>
+            item &&
+            typeof item.dia === 'string' &&
+            item.dia.length <= 40 &&
+            textoRefeicaoValido(item.dia) &&
+            item.refeicao &&
+            typeof item.refeicao.proteina === 'string' &&
+            item.refeicao.proteina.length <= 120 &&
+            textoRefeicaoValido(item.refeicao.proteina) &&
+            typeof item.refeicao.acompanhamento1 === 'string' &&
+            item.refeicao.acompanhamento1.length <= 120 &&
+            textoRefeicaoValido(item.refeicao.acompanhamento1) &&
+            typeof item.refeicao.salada === 'string'
+            && item.refeicao.salada.length <= 120 &&
+            textoRefeicaoValido(item.refeicao.salada)
+          );
+
+        if (!cardapioValido) {
+          localStorage.removeItem(CHAVE_STORAGE_CARDAPIO);
+          return null;
+        }
+
+        return cardapio;
+      } catch (erro) {
+        console.warn('Nao foi possivel carregar o cardapio salvo:', erro);
+        localStorage.removeItem(CHAVE_STORAGE_CARDAPIO);
+        return null;
+      }
+    }
+
+    function gerarOpcoes(lista, selecionado) {
+      return lista.map(item => {
+        const sel = item === selecionado ? ' selected' : '';
+        return '<option value="' + escapeHtml(item) + '"' + sel + '>' + escapeHtml(item) + '<\/option>';
+      }).join('');
+    }
+
+    function aoAlterarSelecao(indiceDia, campo, valor) {
+      if (!cardapioAtual[indiceDia] || cardapioAtual[indiceDia].refeicao.almocoPronto) return;
+      cardapioAtual[indiceDia].refeicao[campo] = valor;
+      salvarCardapio(cardapioAtual);
+      renderizarListaCompras(cardapioAtual, 2);
+    }
+
+    function renderizarCardapio(cardapio) {
+      const menuContainer = document.getElementById('menuContainer');
+      menuContainer.innerHTML = '';
+      menuContainer.className = 'menu-grid';
+
+      cardapio.forEach(({ dia, data, refeicao }, indiceDia) => {
+        const dayCard = document.createElement('div');
+        dayCard.className = 'day-card';
+        const dataSuffix = data ? '<span class="day-date">' + escapeHtml(data) + '<\/span>' : '';
+
+        if (refeicao.almocoPronto) {
+          dayCard.innerHTML =
+            '<div class="day-header">' + escapeHtml(dia) + dataSuffix + '<\/div>' +
+            '<div class="meal-section">' +
+            '<div class="meal-label">🍱 Almoço Pronto<\/div>' +
+            '<div class="meal-item">Dia sem preparo em casa<\/div>' +
+            '<\/div>' +
+            '<div class="day-action-note">Domingo alternado com almoço pronto<\/div>';
+        } else {
+          dayCard.innerHTML =
+            '<div class="day-header">' + escapeHtml(dia) + dataSuffix + '<\/div>' +
+            '<div class="meal-section">' +
+            '<div class="meal-label">🍖 Prato Principal<\/div>' +
+            '<select class="meal-select" data-dia="' + indiceDia + '" data-campo="proteina">' +
+            gerarOpcoes(opcoesPratos.proteinas, refeicao.proteina) +
+            '<\/select>' +
+            '<\/div>' +
+            '<div class="meal-section">' +
+            '<div class="meal-label">🍚 Acompanhamento<\/div>' +
+            '<select class="meal-select" data-dia="' + indiceDia + '" data-campo="acompanhamento1">' +
+            gerarOpcoes(opcoesPratos.acompanhamentos, refeicao.acompanhamento1) +
+            '<\/select>' +
+            '<\/div>' +
+            '<div class="meal-section">' +
+            '<div class="meal-label">🥗 Salada<\/div>' +
+            '<select class="meal-select" data-dia="' + indiceDia + '" data-campo="salada">' +
+            gerarOpcoes(opcoesPratos.saladas, refeicao.salada) +
+            '<\/select>' +
+            '<\/div>' +
+            '<div class="day-actions">' +
+            '<button type="button" class="btn-day-random" onclick="trocarRefeicaoDia(' + indiceDia + ')">🎲 Trocar dia<\/button>' +
+            '<\/div>';
+        }
+
+        dayCard.querySelectorAll('.meal-select').forEach(sel => {
+          sel.addEventListener('change', function () {
+            aoAlterarSelecao(
+              parseInt(this.dataset.dia),
+              this.dataset.campo,
+              this.value
+            );
+          });
+        });
+
+        menuContainer.appendChild(dayCard);
+      });
+
+      renderizarListaCompras(cardapio, 2);
+    }
+
+    function obterSemanaDoMes(data = new Date()) {
+      return Math.ceil(data.getDate() / 7);
+    }
+
+    function semanaComAlmocoPronto(data = new Date()) {
+      const semana = obterSemanaDoMes(data);
+      return semana % 2 === 1;
+    }
+
+    function dataDomingoDaProximaSemana(dataBase = new Date()) {
+      const diaSemana = dataBase.getDay(); // 0=Dom, 1=Seg, ..., 6=Sab
+      const diasAteSegunda = diaSemana === 0 ? 1 : (8 - diaSemana);
+      const proximaSegunda = new Date(dataBase);
+      proximaSegunda.setDate(dataBase.getDate() + diasAteSegunda);
+      const domingo = new Date(proximaSegunda);
+      domingo.setDate(proximaSegunda.getDate() + 6);
+      return domingo;
+    }
+
+    function dataPorDiaMes(dataTexto, referencia = new Date()) {
+      if (typeof dataTexto !== 'string') {
+        return null;
+      }
+
+      const partes = dataTexto.split('/');
+      if (partes.length !== 2) {
+        return null;
+      }
+
+      const dia = parseInt(partes[0], 10);
+      const mes = parseInt(partes[1], 10);
+      if (Number.isNaN(dia) || Number.isNaN(mes)) {
+        return null;
+      }
+
+      let ano = referencia.getFullYear();
+      // ajuste simples de virada de ano
+      if (referencia.getMonth() === 11 && mes === 1) {
+        ano += 1;
+      }
+      if (referencia.getMonth() === 0 && mes === 12) {
+        ano -= 1;
+      }
+
+      const data = new Date(ano, mes - 1, dia);
+      return Number.isNaN(data.getTime()) ? null : data;
+    }
+
+    function aplicarAlmocoPronto(cardapio, data = new Date()) {
+      if (!semanaComAlmocoPronto(data)) {
+        return;
+      }
+
+      const indiceDia = 6;
+
+      if (!cardapio[indiceDia]) {
+        return;
+      }
+
+      cardapio[indiceDia].refeicao = {
+        proteina: 'Almoço pronto',
+        acompanhamento1: 'Sem preparo em casa',
+        salada: 'Opcional',
+        almocoPronto: true
+      };
+    }
+
+    function refeicoesIguais(refeicaoA, refeicaoB) {
+      return refeicaoA.proteina === refeicaoB.proteina &&
+        refeicaoA.acompanhamento1 === refeicaoB.acompanhamento1 &&
+        refeicaoA.salada === refeicaoB.salada;
+    }
+
+    function escapeHtml(texto) {
+      return String(texto)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function limparArquivoGerado() {
+      if (arquivoGeradoUrl) {
+        URL.revokeObjectURL(arquivoGeradoUrl);
+      }
+
+      arquivoGeradoUrl = null;
+      arquivoGeradoNome = '';
+      atualizarStatusArquivoGerado();
+    }
+
+    function atualizarStatusArquivoGerado() {
+      const fileStatus = document.getElementById('fileStatus');
+
+      if (!fileStatus) {
+        return;
+      }
+
+      if (arquivoGeradoUrl) {
+        fileStatus.textContent = `Arquivo pronto: ${arquivoGeradoNome}`;
+        return;
+      }
+
+      fileStatus.textContent = 'Nenhum arquivo gerado nesta sessão.';
+    }
+
+    function gerarConteudoArquivoCompartilhavel(cardapio, pessoas = 2) {
+      const lista = gerarListaCompras(cardapio, pessoas);
+      const diasComPreparo = cardapio.filter(({ refeicao }) => !refeicao.almocoPronto).length;
+      const observacao = cardapio.some(({ refeicao }) => refeicao.almocoPronto)
+        ? 'Inclui 1 dia de almoço pronto.'
+        : 'Sem dia de almoço pronto.';
+      const geradoEm = new Date().toLocaleString('pt-BR');
+
+      const cardsHtml = cardapio.map(({ dia, refeicao }) => {
+        if (refeicao.almocoPronto) {
+          return '<div class="card"><h3>' + escapeHtml(dia) + '<\/h3>' +
+            '<p><strong>Almoço pronto:<\/strong> Dia sem preparo em casa<\/p><\/div>';
+        }
+
+        return '<div class="card"><h3>' + escapeHtml(dia) + '<\/h3>' +
+          '<p><strong>Prato principal:<\/strong> ' + escapeHtml(refeicao.proteina) + '<\/p>' +
+          '<p><strong>Acompanhamento:<\/strong> ' + escapeHtml(refeicao.acompanhamento1) + '<\/p>' +
+          '<p><strong>Salada:<\/strong> ' + escapeHtml(refeicao.salada) + '<\/p><\/div>';
+      }).join('');
+
+      const listaHtml = lista.map(item => {
+        const quantidade = formatarQuantidade(item.quantidade, item.unidade);
+        return '<li><strong>' + escapeHtml(item.item) + '<\/strong>: ' + escapeHtml(quantidade) + '<\/li>';
+      }).join('');
+
+      const css = [
+        'body { font-family: Georgia, serif; margin: 20px; color: #2C1810; background: #FDF8F0; }',
+        'h1 { margin: 0 0 4px; color: #1B2A4A; }',
+        'h2 { color: #1B2A4A; }',
+        'p { margin: 4px 0; }',
+        '.meta { color: #6B5D52; margin-bottom: 16px; font-style: italic; }',
+        '.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }',
+        '.card { border: 1px solid #EDE3D2; border-top: 3px solid #C5A55A; border-radius: 4px; padding: 12px; background: white; }',
+        '.card h3 { margin-top: 0; color: #1B2A4A; }',
+        '.compras { margin-top: 18px; border-top: 2px solid #7B2D3B; padding-top: 12px; }',
+        'ul { padding-left: 18px; }'
+      ].join('\n');
+
+      return '<!DOCTYPE html>' +
+        '<html lang="pt-BR">' +
+        '<head>' +
+        '<meta charset="UTF-8">' +
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+        '<title>Cardápio Semanal — Le Cordon Bleu<\/title>' +
+        '<style>' + css + '<\/style>' +
+        '<\/head>' +
+        '<body>' +
+        '<h1>⚜ Cardápio Semanal<\/h1>' +
+        '<p class="meta">Gerado em ' + escapeHtml(geradoEm) + '<\/p>' +
+        '<div class="grid">' + cardsHtml + '<\/div>' +
+        '<div class="compras">' +
+        '<h2>Lista de Compras<\/h2>' +
+        '<p>Estimativa para ' + pessoas + ' pessoas: ' + diasComPreparo + ' refeições em casa. ' + escapeHtml(observacao) + '<\/p>' +
+        '<ul>' + listaHtml + '<\/ul>' +
+        '<\/div>' +
+        '<\/body>' +
+        '<\/html>';
+    }
+
+    function gerarArquivoCompartilhavel() {
+      if (!Array.isArray(cardapioAtual) || cardapioAtual.length === 0) {
+        alert('Gere o cardápio antes de criar o arquivo.');
+        return;
+      }
+
+      if (arquivoGeradoUrl) {
+        URL.revokeObjectURL(arquivoGeradoUrl);
+      }
+
+      const conteudo = gerarConteudoArquivoCompartilhavel(cardapioAtual, 2);
+      const blob = new Blob([conteudo], { type: 'text/html;charset=utf-8' });
+      arquivoGeradoUrl = URL.createObjectURL(blob);
+
+      const agora = new Date();
+      const ano = agora.getFullYear();
+      const mes = String(agora.getMonth() + 1).padStart(2, '0');
+      const dia = String(agora.getDate()).padStart(2, '0');
+      const hora = String(agora.getHours()).padStart(2, '0');
+      const minuto = String(agora.getMinutes()).padStart(2, '0');
+      arquivoGeradoNome = `cardapio-${ano}-${mes}-${dia}-${hora}${minuto}.html`;
+
+      const link = document.createElement('a');
+      link.href = arquivoGeradoUrl;
+      link.download = arquivoGeradoNome;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      atualizarStatusArquivoGerado();
+    }
+
+    function abrirArquivoExterno(input) {
+      if (!input.files || !input.files[0]) return;
+
+      const arquivo = input.files[0];
+      const url = URL.createObjectURL(arquivo);
+      window.open(url, '_blank');
+
+      // reset para permitir reabrir o mesmo arquivo
+      input.value = '';
+    }
+
+    function gerarTextoWhatsApp(cardapio, pessoas = 2) {
+      const diasComPreparo = cardapio.filter(({ refeicao }) => !refeicao.almocoPronto).length;
+      const lista = gerarListaCompras(cardapio, pessoas);
+      const dataGeracao = new Date().toLocaleDateString('pt-BR');
+
+      const linhasCardapio = cardapio.map(({ dia, refeicao }) => {
+        if (refeicao.almocoPronto) {
+          return `- ${dia}: Almoco pronto`;
+        }
+
+        return `- ${dia}: ${refeicao.proteina} | ${refeicao.acompanhamento1} | ${refeicao.salada}`;
+      });
+
+      const linhasCompras = lista.map(item => `- ${item.item}: ${formatarQuantidade(item.quantidade, item.unidade)}`);
+
+      return [
+        `Cardapio semanal (${dataGeracao})`,
+        '',
+        ...linhasCardapio,
+        '',
+        `Lista de compras (${pessoas} pessoas, ${diasComPreparo} refeicoes em casa):`,
+        ...linhasCompras
+      ].join('\n');
+    }
+
+    function enviarWhatsApp() {
+      if (!Array.isArray(cardapioAtual) || cardapioAtual.length === 0) {
+        alert('Gere o cardápio antes de enviar no WhatsApp.');
+        return;
+      }
+
+      const mensagem = gerarTextoWhatsApp(cardapioAtual, 2);
+      const url = `https://wa.me/?text=${encodeURIComponent(mensagem)}`;
+      window.open(url, '_blank');
+    }
+
+    function trocarRefeicaoDia(indiceDia) {
+      if (!cardapioAtual[indiceDia]) {
+        return;
+      }
+
+      const refeicaoAtual = cardapioAtual[indiceDia].refeicao;
+      if (refeicaoAtual.almocoPronto) {
+        return;
+      }
+
+      let novaRefeicao = gerarRefeicaoDia();
+      let tentativas = 0;
+
+      while (tentativas < 10 && refeicoesIguais(novaRefeicao, refeicaoAtual)) {
+        novaRefeicao = gerarRefeicaoDia();
+        tentativas++;
+      }
+
+      cardapioAtual[indiceDia] = {
+        ...cardapioAtual[indiceDia],
+        refeicao: novaRefeicao
+      };
+
+      renderizarCardapio(cardapioAtual);
+      salvarCardapio(cardapioAtual);
+      limparArquivoGerado();
+    }
+
+    function carregarUltimoCardapio() {
+      const cardapioSalvo = carregarCardapioSalvo();
+
+      if (cardapioSalvo) {
+        // migra cartões antigos (ex.: almoço pronto na quarta) para a regra atual
+        cardapioAtual = cardapioSalvo.map(item => {
+          if (item.refeicao && item.refeicao.almocoPronto) {
+            return {
+              ...item,
+              refeicao: gerarRefeicaoDia()
+            };
+          }
+
+          return {
+            ...item,
+            refeicao: {
+              ...item.refeicao,
+              almocoPronto: false
+            }
+          };
+        });
+        const domingoSalvo = cardapioAtual[6] ? dataPorDiaMes(cardapioAtual[6].data) : null;
+        aplicarAlmocoPronto(cardapioAtual, domingoSalvo || new Date());
+        salvarCardapio(cardapioAtual);
+        renderizarCardapio(cardapioAtual);
+      }
+    }
+
+    function gerarRefeicaoDia() {
+      return {
+        proteina: obterItemAleatorio(opcoesPratos.proteinas),
+        acompanhamento1: obterItemAleatorio(opcoesPratos.acompanhamentos),
+        salada: obterItemAleatorio(opcoesPratos.saladas)
+      };
+    }
+
+    function obterDatasProximaSemana() {
+      const hoje = new Date();
+      const diaSemana = hoje.getDay(); // 0=Dom, 1=Seg, ..., 6=Sab
+      // dias até a próxima segunda: se hoje é dom(0)->1, seg(1)->7, ter(2)->6, ...
+      const diasAteSegunda = diaSemana === 0 ? 1 : (8 - diaSemana);
+      const proximaSegunda = new Date(hoje);
+      proximaSegunda.setDate(hoje.getDate() + diasAteSegunda);
+
+      const datas = [];
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(proximaSegunda);
+        d.setDate(proximaSegunda.getDate() + i);
+        const dd = String(d.getDate()).padStart(2, '0');
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        datas.push({ nome: diasDaSemana[i], data: dd + '/' + mm });
+      }
+      return datas;
+    }
+
+    function gerarCardapio() {
+      const cardapio = [];
+      const diasComData = obterDatasProximaSemana();
+
+      for (let i = 0; i < diasComData.length; i++) {
+        const refeicao = gerarRefeicaoDia();
+        cardapio.push({
+          dia: diasComData[i].nome,
+          data: diasComData[i].data,
+          refeicao: refeicao
+        });
+      }
+
+      aplicarAlmocoPronto(cardapio, dataDomingoDaProximaSemana());
+      cardapioAtual = cardapio;
+      renderizarCardapio(cardapioAtual);
+      salvarCardapio(cardapioAtual);
+      limparArquivoGerado();
+    }
+
+    function limparCardapio() {
+      const menuContainer = document.getElementById('menuContainer');
+      const shoppingListContainer = document.getElementById('shoppingListContainer');
+      menuContainer.innerHTML =
+        '<div class="empty-state">' +
+        '<svg viewBox="0 0 24 24" fill="currentColor">' +
+        '<path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>' +
+        '<\/svg>' +
+        '<h3>Nenhum cardápio gerado ainda<\/h3>' +
+        '<p>Clique em "Gerar Cardápio" para começar<\/p>' +
+        '<\/div>';
+      menuContainer.className = '';
+      shoppingListContainer.innerHTML = '';
+      cardapioAtual = [];
+      localStorage.removeItem(CHAVE_STORAGE_CARDAPIO);
+      limparArquivoGerado();
+    }
+
+    
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(() => navigator.serviceWorker.ready).then(reg => reg.update()).catch(erro => {
+          console.warn('Falha ao registrar service worker:', erro);
+        });
+      });
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      carregarUltimoCardapio();
+      atualizarStatusArquivoGerado();
+    });
+  </script>
+</body>
+
+</html>
+
+
+

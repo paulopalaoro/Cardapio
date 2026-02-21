@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerador de CardÃ¡pio Semanal â€” Le Cordon Bleu</title>
+  <title>Gerador de Cardápio Semanal — Le Cordon Bleu</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#1B2A4A">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -82,7 +82,7 @@
     }
 
     header::before {
-      content: 'âšœ âœ¦ âšœ âœ¦ âšœ âœ¦ âšœ âœ¦ âšœ âœ¦ âšœ âœ¦ âšœ âœ¦ âšœ âœ¦ âšœ';
+      content: '⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜ ✦ ⚜';
       position: absolute;
       top: 12px;
       left: 0;
@@ -463,16 +463,16 @@
 <body>
   <div class="container">
     <header>
-      <h1>âšœ <span>CardÃ¡pio</span> Semanal</h1>
+      <h1>⚜ <span>Cardápio</span> Semanal</h1>
       <p>L'Art de Planifier vos Repas</p>
     </header>
 
     <div class="controls">
-      <button onclick="gerarCardapio()">ðŸŽ² Gerar CardÃ¡pio</button>
-      <button class="btn-secondary" onclick="limparCardapio()">ðŸ—‘ï¸ Limpar</button>
-      <button class="btn-secondary" onclick="gerarArquivoCompartilhavel()">ðŸ–¨ï¸ Gerar Arquivo</button>
-      <button class="btn-secondary" onclick="enviarWhatsApp()">ðŸ“¤ Enviar WhatsApp</button>
-      <button class="btn-secondary" onclick="document.getElementById('inputArquivo').click()">ðŸ“‚ Abrir Arquivo</button>
+      <button onclick="gerarCardapio()">🎲 Gerar Cardápio</button>
+      <button class="btn-secondary" onclick="limparCardapio()">🗑️ Limpar</button>
+      <button class="btn-secondary" onclick="gerarArquivoCompartilhavel()">🖨️ Gerar Arquivo</button>
+      <button class="btn-secondary" onclick="enviarWhatsApp()">📤 Enviar WhatsApp</button>
+      <button class="btn-secondary" onclick="document.getElementById('inputArquivo').click()">📂 Abrir Arquivo</button>
       <input type="file" id="inputArquivo" accept=".html,.htm" style="display:none"
         onchange="abrirArquivoExterno(this)">
     </div>
@@ -483,74 +483,69 @@
           <path
             d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z" />
         </svg>
-        <h3>Nenhum cardÃ¡pio gerado ainda</h3>
-        <p>Clique em "Gerar CardÃ¡pio" para comeÃ§ar</p>
+        <h3>Nenhum cardápio gerado ainda</h3>
+        <p>Clique em "Gerar Cardápio" para começar</p>
       </div>
     </div>
     <div id="shoppingListContainer"></div>
-    <div class="footer-brand">âšœ <span>InspirÃ© par</span> Le Cordon Bleu âšœ</div>
+    <div class="footer-brand">⚜ <span>Inspiré par</span> Le Cordon Bleu ⚜</div>
   </div>
 
   <script>
     const diasDaSemana = [
       'Segunda-feira',
-      'TerÃ§a-feira',
+      'Terça-feira',
       'Quarta-feira',
       'Quinta-feira',
       'Sexta-feira',
-      'SÃ¡bado',
+      'Sábado',
       'Domingo'
     ];
 
     const opcoesPratos = {
-      proteinas: [
-        'Frango grelhado',
-        'Carne moÃ­da',
-        'FilÃ© de tilÃ¡pia',
-        'Bisteca suÃ­na',
+      carnes: [
+        'Frango Empanado',
+        'Carne com Abobora',
+        'Bife Acebolado',
+        'Bife Empanado',
         'Frango ao molho',
         'Carne assada',
-        'Peixe empanado',
-        'Frango Ã  parmegiana',
-        'AlmÃ´ndegas',
+        'Carne ao Forno',
         'Costela assada',
-        'Picadinho de carne',
-        'FilÃ© de frango',
-        'SalmÃ£o grelhado',
         'Strogonoff de frango',
-        'Carne de panela'
+        'Carne de panela',
+        'File de Tilapia',
+        'Escondidinho Frango'
+      ],
+      proteinas: [
+        'Arroz branco',
+        'Feijão preto',
+        'Macarrão ao molho',
+        'Massa Carbonara',
+        'Massa Tomates Secos',
+        'Polenta',
+        'Nhoque de Batata',
+        'Nhoque de Caseiro',
+        'Sopa de Agnolini',
+        'Sopão de Legumes'
       ],
       acompanhamentos: [
-        'Arroz branco',
-        'Arroz integral',
-        'FeijÃ£o preto',
-        'FeijÃ£o carioca',
-        'PurÃª de batata',
+        'Lentilha',
+        'Pure de batata',
         'Batata frita',
         'Farofa',
-        'MacarrÃ£o ao molho',
-        'Arroz Ã  grega',
-        'FeijÃ£o tropeiro',
-        'Polenta',
-        'Escondidinho',
-        'Risoto',
-        'Nhoque',
         'Batata assada'
       ],
       saladas: [
         'Salada de alface e tomate',
         'Salada verde',
-        'Salada de repolho',
-        'Salada caesar',
-        'Salada caprese',
-        'Salada de rÃºcula',
+        'Salada de radichi',
+        'Salada de radichi com Cebola',
+        'Salada de Batata',
+        'Salada de Maionese',
         'Salada tropical',
         'Salada de cenoura ralada',
-        'Salada de beterraba',
         'Salada mista',
-        'Tabule',
-        'Salada de grÃ£o de bico',
-        'Coleslaw',
         'Salada de pepino',
         'Vinagrete'
       ]
@@ -572,39 +567,83 @@
         .replace(/[\u0300-\u036f]/g, '');
     }
 
-    function ingredientesProteina(prato) {
+    function ingredientesCarne(prato) {
       const nome = normalizarTexto(prato);
 
-      if (nome.includes('frango')) {
+      if (
+        nome.includes('frango empanado') ||
+        nome.includes('frango ao molho') ||
+        nome.includes('strogonoff de frango')
+      ) {
         return [{ item: 'Peito de frango', quantidade: 0.22, unidade: 'kg' }];
       }
-      if (nome.includes('tilapia') || nome.includes('peixe') || nome.includes('salmao')) {
+      if (nome.includes('file de tilapia')) {
         return [{ item: 'Peixe', quantidade: 0.24, unidade: 'kg' }];
       }
-      if (nome.includes('suina') || nome.includes('bisteca') || nome.includes('costela')) {
+      if (nome.includes('costela assada')) {
         return [{ item: 'Carne suina', quantidade: 0.24, unidade: 'kg' }];
+      }
+      if (
+        nome.includes('carne com abobora') ||
+        nome.includes('bife acebolado') ||
+        nome.includes('bife emapanado') ||
+        nome.includes('carne assada') ||
+        nome.includes('carne ao forno') ||
+        nome.includes('carne de panela')
+      ) {
+        return [{ item: 'Carne bovina', quantidade: 0.22, unidade: 'kg' }];
+      }
+      if (nome.includes('escondidinho frango')) {
+        return [{ item: 'Batata', quantidade: 0.18, unidade: 'kg' }];
       }
 
       return [{ item: 'Carne bovina', quantidade: 0.22, unidade: 'kg' }];
     }
 
-    function ingredientesAcompanhamento(prato) {
+    function ingredientesProteina(prato) {
       const nome = normalizarTexto(prato);
 
-      if (nome.includes('arroz') || nome.includes('risoto')) {
+      if (nome.includes('arroz')) {
         return [{ item: 'Arroz', quantidade: 0.08, unidade: 'kg' }];
       }
-      if (nome.includes('feijao')) {
+      if (nome.includes('feijao preto')) {
         return [{ item: 'Feijao', quantidade: 0.07, unidade: 'kg' }];
       }
-      if (nome.includes('macarrao') || nome.includes('nhoque')) {
+      if (
+        nome.includes('macarrao ao molho') ||
+        nome.includes('massa carbonara') ||
+        nome.includes('massa tomates secos') ||
+        nome.includes('sopa de agnolini')
+      ) {
         return [{ item: 'Macarrao/Nhoque', quantidade: 0.1, unidade: 'kg' }];
       }
-      if (nome.includes('batata') || nome.includes('pure') || nome.includes('escondidinho')) {
-        return [{ item: 'Batata', quantidade: 0.18, unidade: 'kg' }];
+      if (nome.includes('nhoque de batata') || nome.includes('nhoque de caseiro')) {
+        return [{ item: 'Macarrao/Nhoque', quantidade: 0.1, unidade: 'kg' }];
       }
       if (nome.includes('polenta')) {
         return [{ item: 'Fuba', quantidade: 0.06, unidade: 'kg' }];
+      }
+      if (nome.includes('sopao de legumes')) {
+        return [
+          { item: 'Legumes variados', quantidade: 0.2, unidade: 'kg' },
+          { item: 'Caldo para sopa', quantidade: 0.5, unidade: 'l' }
+        ];
+      }
+
+      return [{ item: 'Prato Principal variado', quantidade: 0.08, unidade: 'kg' }];
+    }
+
+    function ingredientesAcompanhamento(prato) {
+      const nome = normalizarTexto(prato);
+
+      if (nome.includes('lentilha')) {
+        return [{ item: 'Lentilha', quantidade: 0.07, unidade: 'kg' }];
+      }
+      if (
+        nome.includes('batata') ||
+        nome.includes('pure')
+      ) {
+        return [{ item: 'Batata', quantidade: 0.18, unidade: 'kg' }];
       }
       if (nome.includes('farofa')) {
         return [{ item: 'Farinha de mandioca', quantidade: 0.05, unidade: 'kg' }];
@@ -687,15 +726,15 @@
           return;
         }
 
+        ingredientesCarne(refeicao.carne).forEach(ingrediente => {
+          adicionarIngrediente(itens, ingrediente, pessoas);
+        });
+
         ingredientesProteina(refeicao.proteina).forEach(ingrediente => {
           adicionarIngrediente(itens, ingrediente, pessoas);
         });
 
         ingredientesAcompanhamento(refeicao.acompanhamento1).forEach(ingrediente => {
-          adicionarIngrediente(itens, ingrediente, pessoas);
-        });
-
-        ingredientesAcompanhamento(refeicao.acompanhamento2).forEach(ingrediente => {
           adicionarIngrediente(itens, ingrediente, pessoas);
         });
 
@@ -712,12 +751,12 @@
       const lista = gerarListaCompras(cardapio, pessoas);
       const diasComPreparo = cardapio.filter(({ refeicao }) => !refeicao.almocoPronto).length;
       const temAlmocoPronto = cardapio.some(({ refeicao }) => refeicao.almocoPronto);
-      const sufixo = temAlmocoPronto ? ' com 1 dia de almoÃ§o pronto.' : '.';
+      const sufixo = temAlmocoPronto ? ' com 1 dia de almoço pronto.' : '.';
 
       shoppingListContainer.innerHTML =
         '<div class="shopping-list">' +
-        '<h3>âšœ Lista de Compras<\/h3>' +
-        '<p>Estimativa para ' + pessoas + ' pessoas: ' + diasComPreparo + ' refeiÃ§Ãµes em casa' + escapeHtml(sufixo) + '<\/p>' +
+        '<h3>⚜ Lista de Compras<\/h3>' +
+        '<p>Estimativa para ' + pessoas + ' pessoas: ' + diasComPreparo + ' refeições em casa' + escapeHtml(sufixo) + '<\/p>' +
         '<ul>' +
         lista.map(item =>
           '<li><strong>' + escapeHtml(item.item) + '<\/strong><br>' + escapeHtml(formatarQuantidade(item.quantidade, item.unidade)) + '<\/li>'
@@ -766,15 +805,15 @@
             item.dia.length <= 40 &&
             textoRefeicaoValido(item.dia) &&
             item.refeicao &&
+            typeof item.refeicao.carne === 'string' &&
+            item.refeicao.carne.length <= 120 &&
+            textoRefeicaoValido(item.refeicao.carne) &&
             typeof item.refeicao.proteina === 'string' &&
             item.refeicao.proteina.length <= 120 &&
             textoRefeicaoValido(item.refeicao.proteina) &&
             typeof item.refeicao.acompanhamento1 === 'string' &&
             item.refeicao.acompanhamento1.length <= 120 &&
             textoRefeicaoValido(item.refeicao.acompanhamento1) &&
-            typeof item.refeicao.acompanhamento2 === 'string' &&
-            item.refeicao.acompanhamento2.length <= 120 &&
-            textoRefeicaoValido(item.refeicao.acompanhamento2) &&
             typeof item.refeicao.salada === 'string'
             && item.refeicao.salada.length <= 120 &&
             textoRefeicaoValido(item.refeicao.salada)
@@ -821,39 +860,39 @@
           dayCard.innerHTML =
             '<div class="day-header">' + escapeHtml(dia) + dataSuffix + '<\/div>' +
             '<div class="meal-section">' +
-            '<div class="meal-label">ðŸ± AlmoÃ§o Pronto<\/div>' +
+            '<div class="meal-label">🍱 Almoço Pronto<\/div>' +
             '<div class="meal-item">Dia sem preparo em casa<\/div>' +
             '<\/div>' +
-            '<div class="day-action-note">Dia fixo de almoÃ§o pronto<\/div>';
+            '<div class="day-action-note">Domingo alternado com almoço pronto<\/div>';
         } else {
           dayCard.innerHTML =
             '<div class="day-header">' + escapeHtml(dia) + dataSuffix + '<\/div>' +
             '<div class="meal-section">' +
-            '<div class="meal-label">ðŸ– Prato Principal<\/div>' +
+            '<div class="meal-label">🥩 Carnes<\/div>' +
+            '<select class="meal-select" data-dia="' + indiceDia + '" data-campo="carne">' +
+            gerarOpcoes(opcoesPratos.carnes, refeicao.carne) +
+            '<\/select>' +
+            '<\/div>' +
+            '<div class="meal-section">' +
+            '<div class="meal-label">� Prato Principal<\/div>' +
             '<select class="meal-select" data-dia="' + indiceDia + '" data-campo="proteina">' +
             gerarOpcoes(opcoesPratos.proteinas, refeicao.proteina) +
             '<\/select>' +
             '<\/div>' +
             '<div class="meal-section">' +
-            '<div class="meal-label">ðŸš Acompanhamento 1<\/div>' +
+            '<div class="meal-label">🍚 Acompanhamento<\/div>' +
             '<select class="meal-select" data-dia="' + indiceDia + '" data-campo="acompanhamento1">' +
             gerarOpcoes(opcoesPratos.acompanhamentos, refeicao.acompanhamento1) +
             '<\/select>' +
             '<\/div>' +
             '<div class="meal-section">' +
-            '<div class="meal-label">ðŸš Acompanhamento 2<\/div>' +
-            '<select class="meal-select" data-dia="' + indiceDia + '" data-campo="acompanhamento2">' +
-            gerarOpcoes(opcoesPratos.acompanhamentos, refeicao.acompanhamento2) +
-            '<\/select>' +
-            '<\/div>' +
-            '<div class="meal-section">' +
-            '<div class="meal-label">ðŸ¥— Salada<\/div>' +
+            '<div class="meal-label">🥗 Salada<\/div>' +
             '<select class="meal-select" data-dia="' + indiceDia + '" data-campo="salada">' +
             gerarOpcoes(opcoesPratos.saladas, refeicao.salada) +
             '<\/select>' +
             '<\/div>' +
             '<div class="day-actions">' +
-            '<button type="button" class="btn-day-random" onclick="trocarRefeicaoDia(' + indiceDia + ')">ðŸŽ² Trocar dia<\/button>' +
+            '<button type="button" class="btn-day-random" onclick="trocarRefeicaoDia(' + indiceDia + ')">🎲 Trocar dia<\/button>' +
             '<\/div>';
         }
 
@@ -873,13 +912,58 @@
       renderizarListaCompras(cardapio, 2);
     }
 
-    function obterSemanaDoMes(data = new Date()) {
-      return Math.ceil(data.getDate() / 7);
+    function semanaComAlmocoPronto(data = new Date()) {
+      // Data base onde o almoço NÃO é pronto (gera cardápio): 01/03/2026
+      const baseDate = new Date(2026, 2, 1); // Mês 2 é Março
+
+      // Diferença de tempo para a baseDate em milissegundos
+      const diffTime = data.getTime() - baseDate.getTime();
+
+      // Converter para diferença de semanas corretas considerando arredondamentos para fusos
+      const diffSemanas = Math.round(diffTime / (1000 * 60 * 60 * 24 * 7));
+
+      // diffSemanas pares (0, 2, 4...) -> gera cardápio (false)
+      // diffSemanas ímpares (1, 3, 5...) -> almoço pronto (true)
+      return Math.abs(diffSemanas) % 2 === 1;
     }
 
-    function semanaComAlmocoPronto(data = new Date()) {
-      const semana = obterSemanaDoMes(data);
-      return semana === 1 || semana === 3;
+    function dataDomingoDaProximaSemana(dataBase = new Date()) {
+      const diaSemana = dataBase.getDay(); // 0=Dom, 1=Seg, ..., 6=Sab
+      const diasAteSegunda = diaSemana === 0 ? 1 : (8 - diaSemana);
+      const proximaSegunda = new Date(dataBase);
+      proximaSegunda.setDate(dataBase.getDate() + diasAteSegunda);
+      const domingo = new Date(proximaSegunda);
+      domingo.setDate(proximaSegunda.getDate() + 6);
+      return domingo;
+    }
+
+    function dataPorDiaMes(dataTexto, referencia = new Date()) {
+      if (typeof dataTexto !== 'string') {
+        return null;
+      }
+
+      const partes = dataTexto.split('/');
+      if (partes.length !== 2) {
+        return null;
+      }
+
+      const dia = parseInt(partes[0], 10);
+      const mes = parseInt(partes[1], 10);
+      if (Number.isNaN(dia) || Number.isNaN(mes)) {
+        return null;
+      }
+
+      let ano = referencia.getFullYear();
+      // ajuste simples de virada de ano
+      if (referencia.getMonth() === 11 && mes === 1) {
+        ano += 1;
+      }
+      if (referencia.getMonth() === 0 && mes === 12) {
+        ano -= 1;
+      }
+
+      const data = new Date(ano, mes - 1, dia);
+      return Number.isNaN(data.getTime()) ? null : data;
     }
 
     function aplicarAlmocoPronto(cardapio, data = new Date()) {
@@ -887,25 +971,25 @@
         return;
       }
 
-      const indiceDia = 2;
+      const indiceDia = 6;
 
       if (!cardapio[indiceDia]) {
         return;
       }
 
       cardapio[indiceDia].refeicao = {
-        proteina: 'AlmoÃ§o pronto',
+        carne: 'Sem preparo em casa',
+        proteina: 'Almoço pronto',
         acompanhamento1: 'Sem preparo em casa',
-        acompanhamento2: 'Sem preparo em casa',
         salada: 'Opcional',
         almocoPronto: true
       };
     }
 
     function refeicoesIguais(refeicaoA, refeicaoB) {
-      return refeicaoA.proteina === refeicaoB.proteina &&
+      return refeicaoA.carne === refeicaoB.carne &&
+        refeicaoA.proteina === refeicaoB.proteina &&
         refeicaoA.acompanhamento1 === refeicaoB.acompanhamento1 &&
-        refeicaoA.acompanhamento2 === refeicaoB.acompanhamento2 &&
         refeicaoA.salada === refeicaoB.salada;
     }
 
@@ -940,26 +1024,27 @@
         return;
       }
 
-      fileStatus.textContent = 'Nenhum arquivo gerado nesta sessÃ£o.';
+      fileStatus.textContent = 'Nenhum arquivo gerado nesta sessão.';
     }
 
     function gerarConteudoArquivoCompartilhavel(cardapio, pessoas = 2) {
       const lista = gerarListaCompras(cardapio, pessoas);
       const diasComPreparo = cardapio.filter(({ refeicao }) => !refeicao.almocoPronto).length;
       const observacao = cardapio.some(({ refeicao }) => refeicao.almocoPronto)
-        ? 'Inclui 1 dia de almoÃ§o pronto.'
-        : 'Sem dia de almoÃ§o pronto.';
+        ? 'Inclui 1 dia de almoço pronto.'
+        : 'Sem dia de almoço pronto.';
       const geradoEm = new Date().toLocaleString('pt-BR');
 
       const cardsHtml = cardapio.map(({ dia, refeicao }) => {
         if (refeicao.almocoPronto) {
           return '<div class="card"><h3>' + escapeHtml(dia) + '<\/h3>' +
-            '<p><strong>AlmoÃ§o pronto:<\/strong> Dia sem preparo em casa<\/p><\/div>';
+            '<p><strong>Almoço pronto:<\/strong> Dia sem preparo em casa<\/p><\/div>';
         }
 
         return '<div class="card"><h3>' + escapeHtml(dia) + '<\/h3>' +
+          '<p><strong>Carnes:<\/strong> ' + escapeHtml(refeicao.carne) + '<\/p>' +
           '<p><strong>Prato principal:<\/strong> ' + escapeHtml(refeicao.proteina) + '<\/p>' +
-          '<p><strong>Acompanhamentos:<\/strong> ' + escapeHtml(refeicao.acompanhamento1) + ' | ' + escapeHtml(refeicao.acompanhamento2) + '<\/p>' +
+          '<p><strong>Acompanhamento:<\/strong> ' + escapeHtml(refeicao.acompanhamento1) + '<\/p>' +
           '<p><strong>Salada:<\/strong> ' + escapeHtml(refeicao.salada) + '<\/p><\/div>';
       }).join('');
 
@@ -986,16 +1071,16 @@
         '<head>' +
         '<meta charset="UTF-8">' +
         '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
-        '<title>CardÃ¡pio Semanal â€” Le Cordon Bleu<\/title>' +
+        '<title>Cardápio Semanal — Le Cordon Bleu<\/title>' +
         '<style>' + css + '<\/style>' +
         '<\/head>' +
         '<body>' +
-        '<h1>âšœ CardÃ¡pio Semanal<\/h1>' +
+        '<h1>⚜ Cardápio Semanal<\/h1>' +
         '<p class="meta">Gerado em ' + escapeHtml(geradoEm) + '<\/p>' +
         '<div class="grid">' + cardsHtml + '<\/div>' +
         '<div class="compras">' +
         '<h2>Lista de Compras<\/h2>' +
-        '<p>Estimativa para ' + pessoas + ' pessoas: ' + diasComPreparo + ' refeiÃ§Ãµes em casa. ' + escapeHtml(observacao) + '<\/p>' +
+        '<p>Estimativa para ' + pessoas + ' pessoas: ' + diasComPreparo + ' refeições em casa. ' + escapeHtml(observacao) + '<\/p>' +
         '<ul>' + listaHtml + '<\/ul>' +
         '<\/div>' +
         '<\/body>' +
@@ -1004,7 +1089,7 @@
 
     function gerarArquivoCompartilhavel() {
       if (!Array.isArray(cardapioAtual) || cardapioAtual.length === 0) {
-        alert('Gere o cardÃ¡pio antes de criar o arquivo.');
+        alert('Gere o cardápio antes de criar o arquivo.');
         return;
       }
 
@@ -1055,7 +1140,7 @@
           return `- ${dia}: Almoco pronto`;
         }
 
-        return `- ${dia}: ${refeicao.proteina} | ${refeicao.acompanhamento1} + ${refeicao.acompanhamento2} | ${refeicao.salada}`;
+        return `- ${dia}: ${refeicao.carne} | ${refeicao.proteina} | ${refeicao.acompanhamento1} | ${refeicao.salada}`;
       });
 
       const linhasCompras = lista.map(item => `- ${item.item}: ${formatarQuantidade(item.quantidade, item.unidade)}`);
@@ -1072,7 +1157,7 @@
 
     function enviarWhatsApp() {
       if (!Array.isArray(cardapioAtual) || cardapioAtual.length === 0) {
-        alert('Gere o cardÃ¡pio antes de enviar no WhatsApp.');
+        alert('Gere o cardápio antes de enviar no WhatsApp.');
         return;
       }
 
@@ -1091,11 +1176,28 @@
         return;
       }
 
-      let novaRefeicao = gerarRefeicaoDia();
+      // Collect previously used items to avoid dupes, excluding the ones of the current day being replaced
+      const itensUsados = {
+        carnes: new Set(),
+        proteinas: new Set(),
+        acompanhamentos: new Set(),
+        saladas: new Set()
+      };
+
+      cardapioAtual.forEach((item, idx) => {
+        if (idx !== indiceDia && item.refeicao && !item.refeicao.almocoPronto) {
+          if (item.refeicao.carne) itensUsados.carnes.add(item.refeicao.carne);
+          if (item.refeicao.proteina) itensUsados.proteinas.add(item.refeicao.proteina);
+          if (item.refeicao.acompanhamento1) itensUsados.acompanhamentos.add(item.refeicao.acompanhamento1);
+          if (item.refeicao.salada) itensUsados.saladas.add(item.refeicao.salada);
+        }
+      });
+
+      let novaRefeicao = gerarRefeicaoDia(itensUsados);
       let tentativas = 0;
 
       while (tentativas < 10 && refeicoesIguais(novaRefeicao, refeicaoAtual)) {
-        novaRefeicao = gerarRefeicaoDia();
+        novaRefeicao = gerarRefeicaoDia(itensUsados);
         tentativas++;
       }
 
@@ -1113,26 +1215,63 @@
       const cardapioSalvo = carregarCardapioSalvo();
 
       if (cardapioSalvo) {
-        cardapioAtual = cardapioSalvo;
+        // migra cartões antigos (ex.: almoço pronto na quarta) para a regra atual
+        cardapioAtual = cardapioSalvo.map(item => {
+          if ((item.refeicao && item.refeicao.almocoPronto) || (item.refeicao && !item.refeicao.carne)) {
+            return {
+              ...item,
+              refeicao: gerarRefeicaoDia(null)
+            };
+          }
+
+          return {
+            ...item,
+            refeicao: {
+              ...item.refeicao,
+              almocoPronto: false
+            }
+          };
+        });
+        const domingoSalvo = cardapioAtual[6] ? dataPorDiaMes(cardapioAtual[6].data) : null;
+        aplicarAlmocoPronto(cardapioAtual, domingoSalvo || new Date());
+        salvarCardapio(cardapioAtual);
         renderizarCardapio(cardapioAtual);
       }
     }
 
-    function gerarRefeicaoDia() {
-      const acomp1 = obterItemAleatorio(opcoesPratos.acompanhamentos);
-      const acomp2 = obterItemAleatorio(opcoesPratos.acompanhamentos.filter(a => a !== acomp1));
-      return {
-        proteina: obterItemAleatorio(opcoesPratos.proteinas),
-        acompanhamento1: acomp1,
-        acompanhamento2: acomp2,
-        salada: obterItemAleatorio(opcoesPratos.saladas)
+    function obterItemNaoRepetido(opcoes, setUsados) {
+      if (!setUsados) return obterItemAleatorio(opcoes);
+
+      const disponiveis = opcoes.filter(opcao => !setUsados.has(opcao));
+      if (disponiveis.length === 0) {
+        // Fallback in case there are no more options to draw
+        return obterItemAleatorio(opcoes);
+      }
+      return obterItemAleatorio(disponiveis);
+    }
+
+    function gerarRefeicaoDia(itensUsados = null) {
+      const refeicao = {
+        carne: obterItemNaoRepetido(opcoesPratos.carnes, itensUsados?.carnes),
+        proteina: obterItemNaoRepetido(opcoesPratos.proteinas, itensUsados?.proteinas),
+        acompanhamento1: obterItemNaoRepetido(opcoesPratos.acompanhamentos, itensUsados?.acompanhamentos),
+        salada: obterItemNaoRepetido(opcoesPratos.saladas, itensUsados?.saladas)
       };
+
+      if (itensUsados) {
+        itensUsados.carnes.add(refeicao.carne);
+        itensUsados.proteinas.add(refeicao.proteina);
+        itensUsados.acompanhamentos.add(refeicao.acompanhamento1);
+        itensUsados.saladas.add(refeicao.salada);
+      }
+
+      return refeicao;
     }
 
     function obterDatasProximaSemana() {
       const hoje = new Date();
       const diaSemana = hoje.getDay(); // 0=Dom, 1=Seg, ..., 6=Sab
-      // dias atÃ© a prÃ³xima segunda: se hoje Ã© dom(0)->1, seg(1)->7, ter(2)->6, ...
+      // dias até a próxima segunda: se hoje é dom(0)->1, seg(1)->7, ter(2)->6, ...
       const diasAteSegunda = diaSemana === 0 ? 1 : (8 - diaSemana);
       const proximaSegunda = new Date(hoje);
       proximaSegunda.setDate(hoje.getDate() + diasAteSegunda);
@@ -1152,8 +1291,15 @@
       const cardapio = [];
       const diasComData = obterDatasProximaSemana();
 
+      const itensUsados = {
+        carnes: new Set(),
+        proteinas: new Set(),
+        acompanhamentos: new Set(),
+        saladas: new Set()
+      };
+
       for (let i = 0; i < diasComData.length; i++) {
-        const refeicao = gerarRefeicaoDia();
+        const refeicao = gerarRefeicaoDia(itensUsados);
         cardapio.push({
           dia: diasComData[i].nome,
           data: diasComData[i].data,
@@ -1161,7 +1307,7 @@
         });
       }
 
-      aplicarAlmocoPronto(cardapio);
+      aplicarAlmocoPronto(cardapio, dataDomingoDaProximaSemana());
       cardapioAtual = cardapio;
       renderizarCardapio(cardapioAtual);
       salvarCardapio(cardapioAtual);
@@ -1176,8 +1322,8 @@
         '<svg viewBox="0 0 24 24" fill="currentColor">' +
         '<path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/>' +
         '<\/svg>' +
-        '<h3>Nenhum cardÃ¡pio gerado ainda<\/h3>' +
-        '<p>Clique em "Gerar CardÃ¡pio" para comeÃ§ar<\/p>' +
+        '<h3>Nenhum cardápio gerado ainda<\/h3>' +
+        '<p>Clique em "Gerar Cardápio" para começar<\/p>' +
         '<\/div>';
       menuContainer.className = '';
       shoppingListContainer.innerHTML = '';
@@ -1186,10 +1332,10 @@
       limparArquivoGerado();
     }
 
-    
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(erro => {
+        navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then(() => navigator.serviceWorker.ready).then(reg => reg.update()).catch(erro => {
           console.warn('Falha ao registrar service worker:', erro);
         });
       });
@@ -1202,5 +1348,3 @@
 </body>
 
 </html>
-
-
